@@ -21,9 +21,9 @@ export default {
   },
 
   async create ( request:  Request, response: Response ) {
-    // console.log(request.files, '111 ---')
+    console.log(request.files, '111 ---')
 
-    // console.log(request.file, '13123123')
+    console.log(request.file, '13123123')
 
     const {
       name, 
