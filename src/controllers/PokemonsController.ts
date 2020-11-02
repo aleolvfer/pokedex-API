@@ -4,6 +4,22 @@ import { getRepository } from 'typeorm';
 import Pokemon from '../models/Pokemon';
 
 export default {
+
+  async index ( request: Request, response: Response){
+    const pokemonsRepository = getRepository(Pokemon); 
+
+    const pokemons = await pokemonsRepository.find();
+    return response.json(pokemons);
+  },
+
+  async show ( request: Request, response: Response){
+    const id = request.params;
+    const pokemonsRepository = getRepository(Pokemon); 
+
+    const pokemon = await pokemonsRepository.findOneOrFail(id);
+    return response.json(pokemon);
+  },
+
   async create ( request:  Request, response: Response ) {
     const {
       name,
