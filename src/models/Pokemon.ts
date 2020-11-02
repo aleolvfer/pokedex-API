@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
 
+import Image from './Image'
 @Entity('pokemons')
 export default class Pokemon{
-
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -32,7 +32,13 @@ export default class Pokemon{
 
   @Column()
   defense: number;
-
+ 
   @Column()
   stamina: number;
+  
+  @OneToOne(() => Image, image => image.pokemon, {
+    cascade: ['insert', 'update']
+  })
+  @JoinColumn({ name: 'id'})
+  image: Image; 
 }

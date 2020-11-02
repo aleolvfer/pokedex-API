@@ -21,8 +21,12 @@ export default {
   },
 
   async create ( request:  Request, response: Response ) {
+    // console.log(request.files, '111 ---')
+
+    // console.log(request.file, '13123123')
+
     const {
-      name,
+      name, 
       pokedex_number,
       generation,
       evolution_stage,
@@ -35,7 +39,13 @@ export default {
     } = request.body;
   
     const pokemonsRepository = getRepository(Pokemon); 
-  
+    
+    const requestImage = request.file as Express.Multer.File;
+
+    const image = { path: requestImage.filename.toString()};
+
+    // console.log( image )
+    
     const pokemon = pokemonsRepository.create({
       name,
       pokedex_number,
@@ -46,7 +56,8 @@ export default {
       type_two,
       attack,
       defense,
-      stamina
+      stamina,
+      image
     });
   
     await pokemonsRepository.save(pokemon);
