@@ -21,7 +21,7 @@ export default {
   },
 
   async create ( request:  Request, response: Response ) {
-    console.log(request.files, '111 ---')
+    console.log(request, '111 ---')
 
     console.log(request.file, '13123123')
 
@@ -39,12 +39,8 @@ export default {
     } = request.body;
   
     const pokemonsRepository = getRepository(Pokemon); 
-    
-    const requestImage = request.file as Express.Multer.File;
 
-    const image = { path: requestImage.filename.toString()};
-
-    // console.log( image )
+    const image = { path: request.file.filename };
     
     const pokemon = pokemonsRepository.create({
       name,
@@ -59,9 +55,14 @@ export default {
       stamina,
       image
     });
-  
+  console.log(image)
     await pokemonsRepository.save(pokemon);
-  
+    // com save ocorre error cyclic dependency "Image"
+    
+    // await pokemonsRepository.createQueryBuilder()
+    //  .insert().into('pokemons') 
+    //  .values​​(pokemon).execute(); 
+
     return response.status(201).json(pokemon)
   } 
 }
