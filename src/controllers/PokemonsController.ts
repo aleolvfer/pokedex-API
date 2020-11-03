@@ -2,28 +2,40 @@ import { Request, Response } from 'express';
 
 import { getRepository } from 'typeorm';
 import Pokemon from '../models/Pokemon';
+import pokemonView from '../views/pokemons_view'
 
 export default {
+
+  async delete(request: Request, response: Response) {
+    const id = request.params;
+    const pokemonsRepository = getRepository(Pokemon);
+   
+    const pokemon = await pokemonsRepository.findOneOrFail(id);
+  
+    await pokemonsRepository.remove(pokemon);
+    return {message: "Pokemon Removido"};
+  },
 
   async index ( request: Request, response: Response){
     const pokemonsRepository = getRepository(Pokemon); 
 
-    const pokemons = await pokemonsRepository.find();
-    return response.json(pokemons);
+    const pokemons = await pokemonsRepository.find({
+      relations: ['image']
+    });
+    return response.json(pokemonView.renderMany(pokemons));
   },
 
   async show ( request: Request, response: Response){
     const id = request.params;
     const pokemonsRepository = getRepository(Pokemon); 
 
-    const pokemon = await pokemonsRepository.findOneOrFail(id);
-    return response.json(pokemon);
+    const pokemon = await pokemonsRepository.findOneOrFail(id, {
+      relations: ['image']
+    });
+    return response.json(pokemonView.render(pokemon));
   },
 
   async create ( request:  Request, response: Response ) {
-    console.log(request, '111 ---')
-
-    console.log(request.file, '13123123')
 
     const {
       name, 
@@ -55,15 +67,9 @@ export default {
       stamina,
       image
     });
-  console.log(image)
-    await pokemonsRepository.save(pokemon);
-    // com save ocorre error cyclic dependency "Image"
-    
-    // await pokemonsRepository.createQueryBuilder()
-    //  .insert().into('pokemons') 
-    //  .values​​(pokemon).execute(); 
 
+    await pokemonsRepository.save(pokemon);
+    
     return response.status(201).json(pokemon)
   } 
 }
-  

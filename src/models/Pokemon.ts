@@ -39,6 +39,7 @@ export default class Pokemon{
   @OneToOne(() => Image, image => image.pokemon, {
     cascade: ['insert', 'update']
   })
-  //@JoinColumn({ name: 'pokemon_id'})
+  //@JoinColumn( { name: 'id'} )
   image: Image;
+  
 }
