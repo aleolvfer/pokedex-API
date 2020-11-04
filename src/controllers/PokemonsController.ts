@@ -4,16 +4,20 @@ import { getRepository } from 'typeorm';
 import Pokemon from '../models/Pokemon';
 import pokemonView from '../views/pokemons_view'
 
+import * as Yup from 'yup'
+
 export default {
 
   async delete(request: Request, response: Response) {
     const id = request.params;
     const pokemonsRepository = getRepository(Pokemon);
    
-    const pokemon = await pokemonsRepository.findOneOrFail(id);
-  
+    const pokemon = await pokemonsRepository.findOneOrFail(id, {
+      relations:['image']
+    });
     await pokemonsRepository.remove(pokemon);
-    return {message: "Pokemon Removido"};
+
+    return response.json({message: "Pokemon Removido"});
   },
 
   async index ( request: Request, response: Response){
@@ -54,7 +58,7 @@ export default {
 
     const image = { path: request.file.filename };
     
-    const pokemon = pokemonsRepository.create({
+    const data = {
       name,
       pokedex_number,
       generation,
@@ -66,7 +70,29 @@ export default {
       defense,
       stamina,
       image
+    }
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      pokedex_number: Yup.number().required(),
+      generation: Yup.number().required(),
+      evolution_stage: Yup.number().required(),
+      cross_generation: Yup.boolean().required(),
+      type_one: Yup.string().required(),
+      type_two: Yup.string().required(),
+      attack: Yup.number().required(),
+      defense: Yup.number().required(),
+      stamina: Yup.number().required(),
+      image: Yup.object().required().shape({
+        path: Yup.string().required()
+      })
     });
+
+    await schema.validate(data, {
+      abortEarly: false,
+    });
+
+    const pokemon = pokemonsRepository.create(data);
 
     await pokemonsRepository.save(pokemon);
     

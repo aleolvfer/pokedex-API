@@ -10,6 +10,7 @@ const upload = multer(uploadConfig);
 routes.delete('/pokemons/:id', PokemonsController.delete);
 
 routes.get('/pokemons', PokemonsController.index);
+
 routes.get('/pokemons/:id', PokemonsController.show);
 routes.post('/pokemons', upload.single('image'), PokemonsController.create);
 
