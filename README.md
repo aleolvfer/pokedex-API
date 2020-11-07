@@ -1,5 +1,13 @@
-### Instalação
+### :toolbox: Tecnologias
 
+- [Node](https://nodejs.org/en/)
+
+- [Express](https://expressjs.com/pt-br/)
+
+- [SQLite]((https://www.sqlite.org/index.html)) 
+
+
+### Instalação
 
 Tenha instalado em sua maquina o Git e Node.js 10.0.0 (ou superior). Caso prefira, instale o Yarn.
 
