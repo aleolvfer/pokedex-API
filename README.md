@@ -4,7 +4,7 @@
 
 - [Express](https://expressjs.com/pt-br/)
 
-- [SQLite]((https://www.sqlite.org/index.html)) 
+- [SQLite](https://www.sqlite.org/index.html)
 
 
 ### Instalação
