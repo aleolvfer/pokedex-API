@@ -34,6 +34,26 @@ npm run dev
 ```
 *Isso iniciará o servidor em **localhost:3333***
 
-Para listar os pokemons cadastrados faça uma requisição GET para http://localhost:3333/pokemons.
+Para cadastrar um pokemon faça uma  requisiçao POST para http://localhost:3333/pokemons.
+Request Body:
+```
+{
+  "name": "Bulbasaur",
+  "pokedex_number": "1",
+  "generation": "1",
+  "evolution_stage": "1",
+  "cross_generation": "true",
+  "type_one": "Grass",
+  "type_two": "Poison",
+  "attack": "200",
+  "defense": "300",
+  "stamina": "400",
+  "image": "/img/bulbasaur.jpeg"
+}
+```
+
+Para listar todos os pokemons cadastrados faça uma requisição GET para http://localhost:3333/pokemons.
 
 Para listar apenas um pokemon faça uma requisição GET para http://localhost:3333/pokemons/1 passando o id do pokemon.
+
+Para deletar um pokemon faça uma requisição DELETE para http://localhost:3333/pokemons/1 passando o id do pokemon.
